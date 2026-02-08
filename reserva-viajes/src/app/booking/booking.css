@@ -1,0 +1,95 @@
+/* estilos generales */
+form {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+fieldset {
+    border: 1px solid #999;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.campo {
+    margin-bottom: 15px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+/* validacion (rojo/verde) */
+input.ng-valid.ng-touched,
+select.ng-valid.ng-touched {
+    border: 2px solid green;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+    border: 2px solid red;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:disabled {
+    background-color: #ccc;
+}
+
+/* filtro de busqueda */
+.contenedor-filtro {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #f0f0f0;
+}
+
+.destino-item {
+    display: inline-block;
+    background: #e0e0e0;
+    padding: 2px 8px;
+    margin: 2px;
+    border-radius: 4px;
+}
+
+/* pasajeros adicionales */
+.pasajero-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fafafa;
+}
+
+.pasajero-card h4 {
+    margin-top: 0;
+}
+
+.btn-eliminar {
+    background-color: #dc3545;
+    margin-top: 5px;
+}
+
+/* precio total */
+.precio-total {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    margin: 20px 0;
+    padding: 10px;
+    border-top: 2px solid #333;
+}

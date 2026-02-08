@@ -1,0 +1,195 @@
+<!-- buscador -->
+<div class="contenedor-filtro">
+    <h2>Buscar Destino</h2>
+    <input type="text" [formControl]="searchControl" placeholder="Escribe para filtrar destinos..." />
+
+    <div class="lista-destinos">
+        @for (destino of filteredDestinos; track destino) {
+        <span class="destino-item">{{ destino }}</span>
+        }
+        @if (filteredDestinos.length === 0) {
+        <p class="sin-resultados">No se han encontrado resultados</p>
+        }
+    </div>
+</div>
+
+<!-- formulario -->
+<div class="contenedor-formulario">
+    <h1>Reserva de Viajes</h1>
+
+    <form [formGroup]="formularioReserva" (ngSubmit)="enviarFormulario()">
+
+        <fieldset>
+            <legend>Datos del Cliente</legend>
+
+            <div class="campo">
+                <label>Nombre Completo:</label><br>
+                <input type="text" formControlName="nombreCompleto">
+                @if (isFieldInvalid('nombreCompleto')) {
+                <span class="error">{{ getErrorMessage('nombreCompleto') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>DNI/NIE:</label><br>
+                <input type="text" formControlName="dni">
+                @if (isFieldInvalid('dni')) {
+                <span class="error">{{ getErrorMessage('dni') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Email:</label><br>
+                <input type="email" formControlName="email">
+                @if (isFieldInvalid('email')) {
+                <span class="error">{{ getErrorMessage('email') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Teléfono:</label><br>
+                <input type="tel" formControlName="telefono">
+                @if (isFieldInvalid('telefono')) {
+                <span class="error">{{ getErrorMessage('telefono') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Fecha de Nacimiento:</label><br>
+                <input type="date" formControlName="fechaNacimiento">
+                @if (isFieldInvalid('fechaNacimiento')) {
+                <span class="error">{{ getErrorMessage('fechaNacimiento') }}</span>
+                }
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Información del Viaje</legend>
+
+            <div class="campo">
+                <label>Destino:</label><br>
+                <select formControlName="destino">
+                    <option value="">Selecciona un destino</option>
+                    @for (destino of filteredDestinos; track destino) {
+                    <option [value]="destino">{{ destino }}</option>
+                    }
+                </select>
+                @if (isFieldInvalid('destino')) {
+                <span class="error">{{ getErrorMessage('destino') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Fecha de Salida:</label><br>
+                <input type="date" formControlName="fechaSalida">
+                @if (isFieldInvalid('fechaSalida')) {
+                <span class="error">{{ getErrorMessage('fechaSalida') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Fecha de Regreso:</label><br>
+                <input type="date" formControlName="fechaRegreso">
+                @if (isFieldInvalid('fechaRegreso')) {
+                <span class="error">{{ getErrorMessage('fechaRegreso') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Tipo de Viaje:</label><br>
+                <label>
+                    <input type="radio" formControlName="tipoViaje" value="ida">
+                    Solo ida
+                </label>
+                <label>
+                    <input type="radio" formControlName="tipoViaje" value="idaVuelta">
+                    Ida y vuelta
+                </label>
+                @if (isFieldInvalid('tipoViaje')) {
+                <span class="error">{{ getErrorMessage('tipoViaje') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Clase:</label><br>
+                <select formControlName="clase">
+                    <option value="">Selecciona una clase</option>
+                    @for (clase of clases; track clase) {
+                    <option [value]="clase">{{ clase }}</option>
+                    }
+                </select>
+                @if (isFieldInvalid('clase')) {
+                <span class="error">{{ getErrorMessage('clase') }}</span>
+                }
+            </div>
+
+            <div class="campo">
+                <label>Número de Pasajeros:</label><br>
+                <input type="number" formControlName="numPasajeros" min="1" max="10">
+                @if (isFieldInvalid('numPasajeros')) {
+                <span class="error">{{ getErrorMessage('numPasajeros') }}</span>
+                }
+            </div>
+        </fieldset>
+
+        <!-- pasajeros extra -->
+        @if (pasajeros.length > 0) {
+        <fieldset>
+            <legend>Pasajeros Adicionales</legend>
+            <div formArrayName="pasajeros">
+                @for (pasajero of pasajeros.controls; track $index) {
+
+                <div class="pasajero-card" [formGroupName]="$index">
+                    <h4>Pasajero {{ $index + 2 }}</h4>
+
+                    <div class="campo">
+                        <label>Nombre:</label><br>
+                        <input type="text" formControlName="nombre" placeholder="Nombre">
+                    </div>
+
+                    <div class="campo">
+                        <label>Edad:</label><br>
+                        <input type="number" formControlName="edad" placeholder="Edad" min="0" max="120">
+                    </div>
+
+                    <div class="campo">
+                        <label>Relación:</label><br>
+                        <input type="text" formControlName="relacion" placeholder="Familiar, Amigo...">
+                    </div>
+
+                    <button type="button" class="btn-eliminar" (click)="removePasajero($index)">
+                        Eliminar Pasajero
+                    </button>
+                </div>
+                }
+            </div>
+        </fieldset>
+        }
+
+        <fieldset>
+            <legend>Condiciones</legend>
+            <div class="campo">
+                <label>
+                    <input type="checkbox" formControlName="aceptarTerminos">
+                    Acepto los términos
+                </label>
+            </div>
+            <div class="campo">
+                <label>
+                    <input type="checkbox" formControlName="newsletter">
+                    Newsletter
+                </label>
+            </div>
+        </fieldset>
+
+        <!-- precio -->
+        <div class="precio-total">
+            <h3>Precio Total: <span class="precio">{{ precioTotal }}€</span></h3>
+        </div>
+
+        <button type="submit" [disabled]="!formularioReserva.valid">
+            Reservar Viaje
+        </button>
+
+    </form>
+</div>
